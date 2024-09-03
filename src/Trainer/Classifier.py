@@ -137,8 +137,8 @@ def train_model(model, optimizer, criterion, training_set,
 
 def evaluate_model(model, test_set, torch_device, device_package, batch_size=100):
     training_data_set = test_set
-    evaluation_list = []
-    sample_num_list = []
+    res_list = []
+    ref_list = []
     model.flatten()
     device_package.empty_cache()
     for prefix_len in range(1, test_set.max_case_len+1):
@@ -148,7 +148,6 @@ def evaluate_model(model, test_set, torch_device, device_package, batch_size=100
             # print("Max length reached, abort")
             break
         sample_num = input_data[0].shape[0]
-        sample_num_list.append(sample_num)
 
         output_list = []
         label_list = []
@@ -171,10 +170,10 @@ def evaluate_model(model, test_set, torch_device, device_package, batch_size=100
 
             device_package.empty_cache()
 
-        evaluation_list.append([np.vstack(output_list),
-                                np.vstack(label_list)])
+        res_list.append(np.hstack(output_list))
+        ref_list.append(np.hstack(label_list))
 
-    return evaluation_list, np.array(sample_num_list)
+    return np.hstack(res_list), np.hstack(ref_list)
 
 
 class LstmClassifier():
@@ -213,4 +212,5 @@ class LstmClassifier():
                                                                    self.device_package,  self.max_epoch, self.max_ob_iter, print_iter=False)
 
     def predict(self, test_set):
-        self.evaluation_list, self.sample_num_list = evaluate_model(self.model, test_set, self.torch_device, self.device_package, self.batch_size)
+        return evaluate_model(self.model, test_set, self.torch_device, self.device_package, self.batch_size)
+

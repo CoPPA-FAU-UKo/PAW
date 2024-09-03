@@ -140,6 +140,7 @@ class TrainingConfigure(QWidget):
         if self.model_combo_box.currentText() == "LSTM":
             # Create model-specific input fields (LSTM)
             self.hidden_size_entry = self.create_int_entry("Hidden size:")
+            self.batch_size_entry = self.create_int_entry("Batch size:")
             self.num_layers_entry = self.create_int_entry("Number of layers:")
             self.learning_rate_entry = self.create_float_entry("Learning rate:")
             self.max_iter_entry = self.create_float_entry("Maximum iterations:")
@@ -149,6 +150,8 @@ class TrainingConfigure(QWidget):
             self.model_specific_layout.addWidget(self.hidden_size_entry["entry"])
             self.model_specific_layout.addWidget(self.num_layers_entry["label"])
             self.model_specific_layout.addWidget(self.num_layers_entry["entry"])
+            self.model_specific_layout.addWidget(self.batch_size_entry["label"])
+            self.model_specific_layout.addWidget(self.batch_size_entry["entry"])
             self.model_specific_layout.addWidget(self.learning_rate_entry["label"])
             self.model_specific_layout.addWidget(self.learning_rate_entry["entry"])
             self.model_specific_layout.addWidget(self.max_iter_entry["label"])
@@ -225,6 +228,7 @@ class TrainingConfigure(QWidget):
 
             if selected_model == "LSTM":
                 self.config["hidden_size"] = int(self.hidden_size_entry["entry"].text())
+                self.config["batch_size"] = int(self.batch_size_entry["entry"].text())
                 self.config["num_layers"] = int(self.num_layers_entry["entry"].text())
                 self.config["max_iter"] = int(self.max_iter_entry["entry"].text())
                 self.config["patience"] = int(self.patience_entry["entry"].text())

@@ -109,12 +109,14 @@ class ModelTraining(QWidget):
             for name, trace in self.trace_dict.items():
                 predictor, val_stat, test_score = TrainModel.training_pipline(trace, self.training_config)
 
-
                 # Display validation statistics
                 if val_stat is not None:
-                    self.val_stat_text.append(f"{name} Validation Set Statistics:\n")
-                    for key, value in val_stat.items():
-                        self.val_stat_text.append(f"{key}: {value}")
+                    if self.training_config["model"] == "XGBoost":
+                        self.val_stat_text.append(f"{name} Validation Set Statistics:\n")
+                        for key, value in val_stat.items():
+                            self.val_stat_text.append(f"{key}: {value}")
+                    else:
+                        self.val_stat_text.append(f"{name} Validation Set Statistics: {val_stat} \n")
                 else:
                     self.val_stat_text.append("No validation statistics available.")
 
