@@ -1,4 +1,4 @@
-# CoPPA_Trainer
+# Process Analytic Workbench
 
 ## Install environment
 To install the necessary packages of PAW
